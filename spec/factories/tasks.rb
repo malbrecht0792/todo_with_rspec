@@ -13,4 +13,11 @@ FactoryGirl.define do
       priority nil
     end
   end
+
+  factory :homework, class: Task do
+    associate :user
+    name "complete homework"
+    priority 1
+    due_date {DateTime.now + 2.days}
+  end
 end

@@ -12,7 +12,7 @@ feature "tasks/index" do
   end
 end
 
-  feature 'New Task' do
+  xfeature 'New Task' do
     scenario 'user adds a new task' do
 
       visit tasks_path
@@ -30,7 +30,7 @@ end
     end
   end
 
-  feature 'Edit Task' do
+  xfeature 'Edit Task' do
      before :each do
        @task = create(:task)
      end
