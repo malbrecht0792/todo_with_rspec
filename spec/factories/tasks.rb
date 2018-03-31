@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :task do
+    association :user
     name "buy beer"
     priority 2
 
