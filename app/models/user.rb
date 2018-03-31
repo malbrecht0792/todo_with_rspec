@@ -3,4 +3,15 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  validates_presence_of :firstname, :lastname
+
+  has_many :tasks
+
+  def due_today
+    self.tasks.select do |t|
+      byebug
+      t.due_date.to_date == DateTime.now.to_date
+    end
+  end
 end

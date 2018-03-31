@@ -14,10 +14,17 @@ FactoryGirl.define do
     end
   end
 
+  factory :email, class: Task do
+    association :user
+    name "send an email"
+    priority 1
+    due_date {DateTime.now}
+  end
+
   factory :homework, class: Task do
-    associate :user
+    association :user
     name "complete homework"
     priority 1
-    due_date {DateTime.now + 2.days}
+    due_date {DateTime.now}
   end
 end
