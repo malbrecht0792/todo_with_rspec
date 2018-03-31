@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :controller do
-  let(:valid_attributes) {attributes_for(:vote)}
-  let(:invalid_attributes) { attributes_for(:invalid_task) }
+  let(:user) { create(:user) }
+  let(:valid_attributes) { attributes_for(:vote, user_id: user.id)}
+  let(:invalid_attributes) { attributes_for(:invalid_task, user_id: user.id) }
+  before { sign_in(create(:user)) }
 
   describe "GET #index" do
     it "assigns all tasks as @tasks" do
@@ -120,6 +122,15 @@ RSpec.describe TasksController, type: :controller do
       task = Task.create! valid_attributes
       delete :destroy, params: {id: task.to_param}
       expect(response).to redirect_to(tasks_url)
+    end
+  end
+
+  describe 'unauthenticated' do
+    it 'redirects user to login page when not signed in' do
+      # sign out user because the before hook defaults the user to be signed in
+      sign_out(:user)
+      get :index
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 

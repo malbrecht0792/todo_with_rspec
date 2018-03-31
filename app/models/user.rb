@@ -10,7 +10,6 @@ class User < ApplicationRecord
 
   def due_today
     self.tasks.select do |t|
-      byebug
       t.due_date.to_date == DateTime.now.to_date
     end
   end

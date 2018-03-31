@@ -1,22 +1,23 @@
 class TasksController < ApplicationController
+    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_user!
+
     def index
         @tasks = Task.all
     end
 
     def show
-        @task = Task.find(params[:id])
     end
 
     def new
-        @task = Task.new
+        @task = current_user.tasks.build()
     end
 
     def edit
-        @task = Task.find(params[:id])
     end
 
     def create
-        @task = Task.new(task_params)
+        @task = current_user.tasks.build(task_params)
         if @task.save
             redirect_to Task.last
         else
@@ -25,7 +26,6 @@ class TasksController < ApplicationController
     end
 
     def update
-        @task = Task.find(params[:id])
         if @task.update_attributes(task_params)
             redirect_to @task
         else
@@ -34,7 +34,6 @@ class TasksController < ApplicationController
     end
 
     def destroy
-        @task = Task.find(params[:id])
         @task.delete
         redirect_to tasks_path
     end
@@ -42,6 +41,10 @@ class TasksController < ApplicationController
     private
 
     def task_params
-        params.require(:task).permit(:name, :priority)
+        params.require(:task).permit(:name, :priority, :user_id)
+    end
+
+    def set_user
+        @task = Task.find(params[:id])
     end
 end

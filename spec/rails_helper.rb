@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'support/database_cleaner'
 require 'capybara/rspec'
+require 'devise'
 
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -35,6 +36,8 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   config.include FactoryGirl::Syntax::Methods
+  config.include Devise::Test::ControllerHelpers, :type => :controller
+  config.include Devise::Test::IntegrationHelpers, type: :feature
   FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
 
   config.infer_spec_type_from_file_location!

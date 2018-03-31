@@ -16,7 +16,7 @@ FactoryGirl.define do
 
   factory :email, class: Task do
     association :user
-    name "send an email"
+    name "reply to Zack's email"
     priority 1
     due_date {DateTime.now}
   end

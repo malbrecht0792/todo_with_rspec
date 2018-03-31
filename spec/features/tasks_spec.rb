@@ -2,52 +2,58 @@ require 'rails_helper'
 
 feature "tasks/index" do
   scenario "renders a list of tasks" do
-    task = create(:task)
-    vote = create(:vote)
+    user = create(:user)
+    sign_in(user)
+
+    create(:homework, user: user)
+    create(:email, user: user)
 
     visit tasks_path
 
-    expect(page).to have_content('buy beer')
-    expect(page).to have_content('vote')
+    expect(page).to have_content('complete homework')
+    expect(page).to have_content("reply to Zack's email")
   end
 end
 
-  feature 'New Task' do
-    scenario 'user adds a new task' do
+feature 'New Task' do
+  scenario 'user adds a new task' do
+    user = create(:user)
+    sign_in(user)
+    visit tasks_path
 
-      visit tasks_path
-
-      expect{
-        click_link 'New Task'
-        fill_in 'Name', with: 'Learn Rspec'
-        fill_in 'Priority', with: 1
-        click_button('Create Task')
-      }.to change(Task, :count).by(1)
-
-      expect(current_path).to eq(task_path(Task.last.id))
-      expect(page).to have_content('Learn Rspec')
-
-    end
-  end
-
-  feature 'Edit Task' do
-     before :each do
-       @task = create(:task)
-     end
-
-    scenario 'User edits task' do
-      visit task_path(@task)
-      expect(page).to have_content('buy beer')
-
-      click_link("Edit")
-
+    expect{
+      click_link 'New Task'
       fill_in 'Name', with: 'Learn Rspec'
-      fill_in "Priority", with: 1
-      click_button('Update Task')
+      fill_in 'Priority', with: 1
+      fill_in 'Due date', with: DateTime.now
+      click_button('Create Task')
+    }.to change(Task, :count).by(1)
 
-      expect(current_path).to eq(task_path(@task.id))
-
-      expect(page).to have_content('Learn Rspec')
-    end
+    expect(current_path).to eq(task_path(Task.last.id))
+    expect(page).to have_content('Learn Rspec')
 
   end
+end
+
+feature 'Edit Task' do
+  let(:user) { create(:user) }
+  let(:task) { create(:homework) }
+
+  scenario 'User edits task' do
+    sign_in(user)
+    visit task_path(task)
+    expect(page).to have_content('complete homework')
+
+    click_link("Edit")
+
+    fill_in 'Name', with: 'Master Rspec!!!!!'
+    fill_in "Priority", with: 1
+    fill_in "Due date", with: DateTime.now
+
+    click_button('Update Task')
+
+    expect(current_path).to eq(task_path(task.id))
+
+    expect(page).to have_content('Master Rspec!!!!!')
+  end
+end
