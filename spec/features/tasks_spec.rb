@@ -3,15 +3,18 @@ require 'rails_helper'
 feature "tasks/index" do
   scenario "renders a list of tasks" do
     user = create(:user)
+    other_user = create(:user)
     sign_in(user)
 
     create(:homework, user: user)
     create(:email, user: user)
+    create(:task, user: other_user)
 
     visit tasks_path
 
     expect(page).to have_content('complete homework')
     expect(page).to have_content("reply to Zack's email")
+    expect(page).not_to have_content("buy beer")
   end
 end
 

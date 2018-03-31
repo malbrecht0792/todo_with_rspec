@@ -4,7 +4,7 @@ RSpec.describe TasksController, type: :controller do
   let(:user) { create(:user) }
   let(:valid_attributes) { attributes_for(:vote, user_id: user.id)}
   let(:invalid_attributes) { attributes_for(:invalid_task, user_id: user.id) }
-  before { sign_in(create(:user)) }
+  before { sign_in(user) }
 
   describe "GET #index" do
     it "assigns all tasks as @tasks" do
