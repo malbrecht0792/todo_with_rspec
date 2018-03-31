@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 gem 'database_cleaner', group: :test
 gem 'simplecov', require: false, group: :test
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -39,6 +40,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
+  gem 'faker'
 end
 
 group :development do
