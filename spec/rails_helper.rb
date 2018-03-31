@@ -38,7 +38,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
-  config.include Devise::Test::IntegrationHelpers, type: :requests
+  # config.include DeviseRequestSpecHelpers, type: :request
   FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
 
   config.infer_spec_type_from_file_location!
